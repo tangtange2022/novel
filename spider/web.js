@@ -5,11 +5,14 @@ const { userAgents } = require('./userAgents')
 const cheerio = require('cheerio')
 
 module.exports = {
-    requestAsync: function(src) {
-        return new Promise(function(s, j) {
-            request.get(src).buffer(true).charset().set({ 'User-Agent': userAgents[2] }).end((err, res) => {
-                err ? j(err) : s(cheerio.load(res.text))
-            })
-        })
+    getNovelIndex: async function (src) {
+        return requestAsync(src).catch(console.log)
     }
+}
+function requestAsync(src) {
+    return new Promise(function (s, j) {
+        request.get(src).buffer(true).charset().set({ 'User-Agent': userAgents[2] }).end((err, res) => {
+            err ? j(err) : s(cheerio.load(res.text))
+        })
+    })
 }
