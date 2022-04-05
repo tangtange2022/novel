@@ -5,7 +5,7 @@ const { userAgents } = require('./userAgents')
 const cheerio = require('cheerio')
 
 module.exports = {
-    getNovelIndex: async function (src) {
+    getNovelPage: async function (src) {
         return requestAsync(src).catch(console.log)
     }
 }

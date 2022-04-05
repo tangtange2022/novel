@@ -42,7 +42,7 @@ async function getNoevlLink(bookname, author) {
 
 }
 async function getNovelIndex(request, db, novelIndexSrc) {
-    let $ = await request.getNovelIndex(novelIndexSrc)
+    let $ = await request.getNovelPage(novelIndexSrc)
 
     let novel = {
         name: $('#info h1').text().split(/\s+\/\s+/)[0],
