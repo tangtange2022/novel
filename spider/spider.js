@@ -26,7 +26,7 @@
 //  -->
 
 let db = new Object()
-    // let
+// let
 module.exports = {
     getNoevlLink: getNoevlLink,
     getNovelIndex: getNovelIndex,
@@ -41,9 +41,28 @@ module.exports = {
 async function getNoevlLink(bookname, author) {
 
 }
-async function getNovelIndex(novelIndexSrc) {
+async function getNovelIndex(request, db, novelIndexSrc) {
+    let $ = await request.getNovelIndex(novelIndexSrc)
 
+    let novel = {
+        name: $('#info h1').text().split(/\s+\/\s+/)[0],
+        author: $('#info h1').text().split(/\s+\/\s+/)[1],
+        avatar: $('#picbox .img_in img').attr('src'),
+        info: $('#intro').text()
+    }
 
+    let isNovelExist = await db.isNovelExist(novel.name, novel.author)
+
+    if (!isNovelExist) {
+        novel.nid = await db.getBookNovelNid()
+        await db.addBookNovel(nid, name, author, avatar, info)
+        await db.addBookLinks(nid, novelIndexSrc)
+    }
+    if (isNovelExist && !await db.isLinksExist(isNovelExist, novelIndexSrc)) {
+        await db.addBookLinks(isNovelExist, novelIndexSrc)
+    }
+
+    return novel
 }
 async function getNovelContent(novelContentSrc) {
 
@@ -61,15 +80,5 @@ async function getBookNovelNid(nid = 100001) {
     return nid
 }
 
-getNovelIndex("https://www.bbiquge.net/book_133312/")
 
 
-
-
-
-
-function requestAsync(src) {
-    return new Promise((s, j) => {
-
-    })
-}
